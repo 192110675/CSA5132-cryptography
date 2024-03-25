@@ -1,0 +1,46 @@
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+void substitutionCipher(char message[], char key[]) {
+    int i;
+    char ch;
+    for (i = 0; message[i] != '\0'; ++i) {
+        ch = message[i];
+        if (isalpha(ch)) {
+            if (islower(ch)) {
+                message[i] = key[ch - 'a'];
+            } else {
+                message[i] = toupper(key[ch - 'A']);
+            }
+        }
+    }
+    printf("Encrypted message: %s\n", message);
+}
+int main() {
+    char message[100];
+    char key[26];
+    int i;
+    printf("Enter message: ");
+    fgets(message, sizeof(message), stdin);
+    message[strcspn(message, "\n")] = '\0';
+    printf("Enter substitution key (26 characters): ");
+    fgets(key, sizeof(key), stdin);
+    if (strlen(key) != 27) {
+        printf("Invalid key length. Key should be exactly 26 characters long.\n");
+        return 1;
+    }
+    for (i = 0; key[i] != '\0'; ++i) {
+        if (!isalpha(key[i])) {
+            printf("Invalid key. Key should contain only alphabetic characters.\n");
+            return 1;
+        }
+    }
+    for (i = 0; i < 26; ++i) {
+        if (strchr(key, 'a' + i) != strrchr(key, 'a' + i)) {
+            printf("Invalid key. Key should not contain duplicate characters.\n");
+            return 1;
+        }
+    }
+    substitutionCipher(message, key);
+    return 0;
+}
