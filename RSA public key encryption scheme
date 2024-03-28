@@ -1,0 +1,13 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+unsigned long long mod_exp(unsigned long long base, unsigned long long exp, unsigned long 
+long modulus) {
+ unsigned long long result = 1;
+ base %= modulus;
+ while (exp > 0) {
+ if (exp & 1) {
+ result = (result * base) % modulus;
+ }
+ base = (base * base) % modulus;
+ exp >>= 1;
